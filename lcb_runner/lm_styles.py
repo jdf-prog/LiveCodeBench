@@ -24,6 +24,7 @@ class LMStyle(Enum):
     CodeLLaMaInstruct = "CodeLLaMaInstruct"
     StarCoderInstruct = "StarCoderInstruct"
     CodeQwenInstruct = "CodeQwenInstruct"
+    AceCoderQwen = "AceCoderQwen"
     QwQ = "QwQ"
 
     LLaMa3 = "LLaMa3"
@@ -544,6 +545,14 @@ LanguageModelList: list[LanguageModel] = [
         "Qwen/Qwen2.5-7B-Instruct",
         "Qwen2.5-Ins-7B",
         LMStyle.CodeQwenInstruct,
+        datetime(2023, 8, 30),
+        link="https://huggingface.co/Qwen/Qwen2.5-7B-Instruct",
+    ),
+    ## Qwen 2.5
+    LanguageModel(
+        "/data/dongfu/verl/checkpoints/acecoder/qwen_qwen2.5-7b-instruct-grpo-n8-b512-t1.2/global_step_20/actor/huggingface",
+        "qwen_qwen2.5-7b-instruct-grpo-n8-b512-t1.2",
+        LMStyle.AceCoderQwen,
         datetime(2023, 8, 30),
         link="https://huggingface.co/Qwen/Qwen2.5-7B-Instruct",
     ),

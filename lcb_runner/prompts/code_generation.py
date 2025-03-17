@@ -136,6 +136,19 @@ def get_codeqwen_question_template_answer(question: CodeGenerationProblem):
     prompt += f"<|im_start|>assistant\n"
     return prompt
 
+def get_acecoderqwen_question_template_answer(question: CodeGenerationProblem):
+    prompt = "You will be given a question (problem specification) and will generate a correct Python program that matches the specification and passes all tests. You will NOT return anything except for the program.\n\n"
+    prompt += f"Question: {question.question_content}\n\n"
+    prompt += "Let's think step by step and generate the final program in a markdown code block like this: ```python\nyour code here\n```.\n"
+    if question.starter_code:
+        prompt += f"{PromptConstants.FORMATTING_MESSAGE_WITH_STARTER_CODE}\n"
+        prompt += f"```python\n{question.starter_code}\n```\n\n<|im_end|>\n"
+    else:
+        prompt += f"{PromptConstants.FORMATTING_WITHOUT_STARTER_CODE}\n"
+        prompt += f"```python\n# YOUR CODE HERE\n```\n\n<|im_end|>\n"
+    prompt += f"<|im_start|>assistant\n"
+    return prompt
+
 
 def get_deepseek_r1_question_template_answer(question: CodeGenerationProblem):
     # Following modifications from: https://github.com/fanqiwan/FuseAI/blob/main/FuseO1-Preview/code_evaluation/lcb_runner_cq/prompts/code_generation.py
@@ -303,6 +316,11 @@ def format_prompt_generation(
     if LanguageModelStyle == LMStyle.CodeQwenInstruct:
         prompt = f"{PromptConstants.SYSTEM_MESSAGE_CODEQWEN}\n\n"
         prompt += f"{get_codeqwen_question_template_answer(question)}"
+        return prompt
+
+    if LanguageModelStyle == LMStyle.AceCoderQwen:
+        prompt = f"{PromptConstants.SYSTEM_MESSAGE_CODEQWEN}\n\n"
+        prompt += f"{get_acecoderqwen_question_template_answer(question)}"
         return prompt
 
     if LanguageModelStyle == LMStyle.DeepSeekR1:
