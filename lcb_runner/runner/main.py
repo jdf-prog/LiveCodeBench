@@ -3,7 +3,7 @@ import json
 
 from lcb_runner.runner.parser import get_args
 from lcb_runner.utils.scenarios import Scenario
-from lcb_runner.lm_styles import LanguageModelStore
+from lcb_runner.lm_styles import LanguageModelStore, LanguageModel, LMStyle, datetime
 from lcb_runner.runner.runner_utils import build_runner
 from lcb_runner.utils.path_utils import get_output_path
 from lcb_runner.evaluation import extract_instance_results
@@ -18,7 +18,17 @@ from lcb_runner.runner.scenario_router import (
 def main():
     args = get_args()
 
-    model = LanguageModelStore[args.model]
+    if args.model not in LanguageModelStore or True:
+        # for verltool only
+        model = LanguageModel(
+            args.model,
+            "DeepCoder-14B-Preview",
+            LMStyle.OpenAIChat,
+            datetime(2025, 4, 1),
+            link=f"https://huggingface.co/{args.model}",
+        )
+    else:
+        model = LanguageModelStore[args.model]
     benchmark, format_prompt = build_prompt_benchmark(args)
     if args.debug:
         print(f"Running with {len(benchmark)} instances in debug mode")
