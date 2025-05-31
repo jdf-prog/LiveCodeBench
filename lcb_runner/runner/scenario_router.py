@@ -64,7 +64,15 @@ def build_prompt_benchmark(
         benchmark = sorted(benchmark, key=lambda x: (x.question_id, x.test_id))
         format_prompt = format_prompt_test_output
     elif scenario == Scenario.selfrepair:
-        benchmark = load_code_generation_dataset(args.release_version)
+        not_fast: bool = args.not_fast
+        if not_fast:
+            benchmark = load_code_generation_dataset_not_fast(args.release_version)
+        else:
+            benchmark = load_code_generation_dataset(
+                args.release_version,
+                start_date=args.start_date,
+                end_date=args.end_date
+            )
         benchmark = sorted(benchmark, key=lambda x: x.question_id)
         format_prompt = format_prompt_self_repair
     elif scenario == Scenario.codeexecution:

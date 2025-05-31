@@ -59,7 +59,8 @@ Since LiveCodeBench is a continuously updated benchmark, we provide different ve
 You can use the `--release_version` flag to specify the dataset version you wish to use. Particularly, you can use the following command to run the evaluation on the `release_v2` dataset. Release version defaults to `release_latest`. Additionally, we have introduced fine-grained release versions such as `v1`, `v2`, `v1_v3`, `v4_v5` for specific versions of the dataset.
 
 ```bash
-python -m lcb_runner.runner.main --model {model_name} --scenario codegeneration --evaluate --release_version release_v2
+python -m lcb_runner.runner.main --model {model_name} --scenario codegeneration --evaluate --release_version release_v2 
+python -m lcb_runner.runner.main --model Qwen/Qwen2.5-Coder-7B-Instruct --scenario codegeneration --evaluate --start_date 2024-08-01 --end_date 2024-11-01
 ```
 
 ### Code Generation
@@ -107,6 +108,7 @@ For running self repair, you need to provide an additional `--codegen_n` flag th
 
 ```bash
 python -m lcb_runner.runner.main --model {model_name --scenario selfrepair --codegen_n {num_codes_codegen} --n 1 # only n=1 supported
+python -m lcb_runner.runner.main --model Qwen/Qwen2.5-Coder-7B-Instruct --scenario selfrepair  --evaluate --continue_existing --codegen_n 10 --n 1  --start_date 2024-08-01 --end_date 2024-11-01
 ```
 
 In case you have results on a smaller subset or version of the benchmark, you can use `--continue_existing` and `--continue_existing_with_eval` flags to reuse the old computations. Particularly, you can run the following command to continue from existing generated solutions.

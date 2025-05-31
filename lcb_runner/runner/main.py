@@ -58,6 +58,7 @@ def main():
             f"Found {len(old_save_results)} existing generations, continuing with {len(remaining_benchmark)} remaining"
         )
     else:
+        exit(1)
         old_save_results = []
         remaining_benchmark = benchmark
 
