@@ -59,7 +59,9 @@ Since LiveCodeBench is a continuously updated benchmark, we provide different ve
 You can use the `--release_version` flag to specify the dataset version you wish to use. Particularly, you can use the following command to run the evaluation on the `release_v2` dataset. Release version defaults to `release_latest`. Additionally, we have introduced fine-grained release versions such as `v1`, `v2`, `v1_v3`, `v4_v5` for specific versions of the dataset.
 
 ```bash
-python -m lcb_runner.runner.main --model {model_name} --scenario codegeneration --evaluate --release_version release_v2
+python -m lcb_runner.runner.main --model {model_name} --scenario codegeneration --evaluate --release_version release_v5
+python -m lcb_runner.runner.main --model deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B --scenario codegeneration --evaluate --release_version release_v5
+
 ```
 
 ### Code Generation

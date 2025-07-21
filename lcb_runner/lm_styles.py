@@ -861,6 +861,13 @@ LanguageModelList: list[LanguageModel] = [
         datetime(2024, 4, 1),
         "https://huggingface.co/agentica-org/DeepCoder-14B-Preview",
     ),
+    LanguageModel(
+        "nvidia/AceReason-Nemotron-1.1-7B",
+        "AceReason-Nemotron-1.1-7B",
+        LMStyle.AceReason,
+        datetime(2024, 4, 1),
+        "https://huggingface.co/nvidia/AceReason-Nemotron-1.1-7B",
+    ),
 ]
 
 LanguageModelStore: dict[str, LanguageModel] = {

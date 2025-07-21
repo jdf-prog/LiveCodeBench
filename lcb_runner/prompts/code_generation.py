@@ -331,10 +331,14 @@ def format_prompt_generation(
         return prompt
 
     if LanguageModelStyle == LMStyle.DeepSeekR1:
-        prompt = f"{PromptConstants.SYSTEM_MESSAGE_DEEPSEEK_R1}"
+        import os
+        if os.environ.get("DEEPSEEK_R1_NO_SYS_PROMPT"):
+            prompt = "<｜begin▁of▁sentence｜><｜User｜>" # deepseek-r1 recommend no system prompt
+        else:
+            prompt = f"{PromptConstants.SYSTEM_MESSAGE_DEEPSEEK_R1}"
         prompt += f"{get_deepseek_r1_question_template_answer(question)}"
         return prompt
-
+    
     if LanguageModelStyle == LMStyle.GenericBase:
         prompt = get_base_model_question_template_answer(question)
         return prompt

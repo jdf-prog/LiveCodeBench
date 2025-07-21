@@ -26,7 +26,11 @@ def get_output_path(model_repr:str, args) -> str:
     n = args.n
     temperature = args.temperature
     cot_suffix = "_cot" if args.cot_code_execution else ""
-    path = f"output/{model_repr}/{scenario}_{n}_{temperature}{cot_suffix}.json"
+    import os
+    if os.environ.get("DEEPSEEK_R1_NO_SYS_PROMPT"):
+        path = f"output/{model_repr}/{scenario}_{n}_{temperature}{cot_suffix}_no_sys.json"
+    else:   
+        path = f"output/{model_repr}/{scenario}_{n}_{temperature}{cot_suffix}.json"
     ensure_dir(path)
     return path
 
