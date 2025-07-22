@@ -34,6 +34,10 @@ class LMStyle(Enum):
 
     TogetherAI = "TogetherAI"
 
+    AceReasonV1_1 = "AceReasonV1_1"
+    AceReason = "AceReason"
+    MiMo = "MiMo"
+
 
 @dataclass
 class LanguageModel:
@@ -862,12 +866,41 @@ LanguageModelList: list[LanguageModel] = [
         "https://huggingface.co/agentica-org/DeepCoder-14B-Preview",
     ),
     LanguageModel(
+        "nvidia/AceReason-Nemotron-7B",
+        "AceReason-Nemotron-7B",
+        LMStyle.AceReason,
+        datetime(2024, 6, 5),
+        "https://huggingface.co/nvidia/AceReason-Nemotron-7B",
+    ),
+    LanguageModel(
+        "nvidia/AceReason-Nemotron-14B",
+        "AceReason-Nemotron-14B",
+        LMStyle.AceReason,
+        datetime(2024, 6, 5),
+        "https://huggingface.co/nvidia/AceReason-Nemotron-14B",
+    ),
+    LanguageModel(
         "nvidia/AceReason-Nemotron-1.1-7B",
         "AceReason-Nemotron-1.1-7B",
-        LMStyle.AceReason,
-        datetime(2024, 4, 1),
+        LMStyle.AceReasonV1_1,
+        datetime(2024, 6, 16),
         "https://huggingface.co/nvidia/AceReason-Nemotron-1.1-7B",
     ),
+    LanguageModel(
+        "XiaomiMiMo/MiMo-7B-RL",
+        "MiMo-7B-RL",
+        LMStyle.MiMo,
+        datetime(2024, 5, 30),
+        "https://huggingface.co/nvidia/XiaomiMiMo/MiMo-7B-RL",
+    ),
+    LanguageModel(
+        "XiaomiMiMo/MiMo-7B-SFT",
+        "MiMo-7B-SFT",
+        LMStyle.MiMo,
+        datetime(2024, 5, 30),
+        "https://huggingface.co/nvidia/XiaomiMiMo/MiMo-7B-SFT",
+    ),
+    
 ]
 
 LanguageModelStore: dict[str, LanguageModel] = {

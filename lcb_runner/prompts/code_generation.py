@@ -36,6 +36,8 @@ class PromptConstants:
 
     FORMATTING_WITHOUT_STARTER_CODE = "Read the inputs from stdin solve the problem and write the answer to stdout (do not directly test on the sample inputs). Enclose your code within delimiters as follows. Ensure that when the python program runs, it reads the inputs, runs the algorithm and writes output to STDOUT."
 
+    ACEREASON_V1_1_SYSTEM_MESSAGE = "You are a helpful and harmless assistant. You should think step-by-step."
+
 
 def get_generic_question_template_answer(question: CodeGenerationProblem):
     prompt = f"### Question:\n{question.question_content}\n\n"
@@ -165,6 +167,53 @@ def get_deepseek_r1_question_template_answer(question: CodeGenerationProblem):
     prompt += f"<｜Assistant｜>"
     return prompt
 
+def get_ace_reason_v1_1_question_template_answer(question: CodeGenerationProblem):
+
+    code_question = question.question_content
+    starter_code = question.starter_code or ""  # starter code function header, set empty string ("") if there is no starter code
+
+    code_instruction_nostartercode = """Write Python code to solve the problem. Please place the solution code in the following format:\n```python\n# Your solution code here\n```"""
+    code_instruction_hasstartercode = """Please place the solution code in the following format:\n```python\n# Your solution code here\n```"""
+    if starter_code != "":
+        code_question += "\n\n" + "Solve the problem starting with the provided function header.\n\nFunction header:\n" + "```\n" + starter_code + "\n```"
+        code_question += "\n\n" + code_instruction_hasstartercode
+    else:
+        code_question += "\n\n" + code_instruction_nostartercode
+
+    final_prompt = "<|im_start|>system\n" + PromptConstants.ACEREASON_V1_1_SYSTEM_MESSAGE + "<|im_end|>\n<|im_start|>user\n" + code_question + "<|im_end|>\n<|im_start|>assistant\n<think>\n"
+    return final_prompt
+
+def get_ace_reason_question_template_answer(question: CodeGenerationProblem):
+
+    code_question = question.question_content # code question
+    starter_code = question.starter_code or "" # starter code function header
+
+    code_instruction_nostartercode = """Write Python code to solve the problem. Please place the solution code in the following format:\n```python\n# Your solution code here\n```"""
+    code_instruction_hasstartercode = """Please place the solution code in the following format:\n```python\n# Your solution code here\n```"""
+    if starter_code != "":
+        code_question += "\n\n" + "Solve the problem starting with the provided function header.\n\nFunction header:\n" + "```\n" + starter_code + "\n```"
+        code_question += "\n\n" + code_instruction_hasstartercode
+    else:
+        code_question += "\n\n" + code_instruction_nostartercode
+
+    final_prompt = "<｜User｜>" + code_question + "<｜Assistant｜><think>\n"
+
+    return final_prompt
+
+def get_mimo_question_template_answer(question: CodeGenerationProblem):
+    code_question = question.question_content
+    starter_code = question.starter_code or ""  # starter code function header, set empty string ("") if there is no starter code
+
+    code_instruction_nostartercode = """Write Python code to solve the problem. Please place the solution code in the following format:\n```python\n# Your solution code here\n```"""
+    code_instruction_hasstartercode = """Please place the solution code in the following format:\n```python\n# Your solution code here\n```"""
+    if starter_code != "":
+        code_question += "\n\n" + "Solve the problem starting with the provided function header.\n\nFunction header:\n" + "```\n" + starter_code + "\n```"
+        code_question += "\n\n" + code_instruction_hasstartercode
+    else:
+        code_question += "\n\n" + code_instruction_nostartercode
+
+    final_prompt = "<|im_start|>system\n" + "<|im_end|>\n<|im_start|>user\n" + code_question + "<|im_end|>\n<|im_start|>assistant\n"
+    return final_prompt
 
 with open("lcb_runner/prompts/few_shot_examples/generation/func.json") as f:
     func = json.load(f)
@@ -337,6 +386,18 @@ def format_prompt_generation(
         else:
             prompt = f"{PromptConstants.SYSTEM_MESSAGE_DEEPSEEK_R1}"
         prompt += f"{get_deepseek_r1_question_template_answer(question)}"
+        return prompt
+    
+    if LanguageModelStyle == LMStyle.AceReason:
+        prompt = get_ace_reason_question_template_answer(question)
+        return prompt
+    
+    if LanguageModelStyle == LMStyle.AceReasonV1_1:
+        prompt = get_ace_reason_v1_1_question_template_answer(question)
+        return prompt
+    
+    if LanguageModelStyle == LMStyle.MiMo:
+        prompt = get_mimo_question_template_answer(question)
         return prompt
     
     if LanguageModelStyle == LMStyle.GenericBase:
